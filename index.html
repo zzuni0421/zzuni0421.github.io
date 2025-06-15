@@ -13,26 +13,6 @@
 
   <script>
     <script>
-  // 폼 전송 (이미 있던 코드)
-  document.getElementById('postForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-
-    fetch('https://script.google.com/macros/s/AKfycbwueMDSXnzjlKjEQhb3u758EyE1f-pSsmPYd6yUaoN0Q5UV7EeZRnoL-XSjJpZXUxsA4g/exec', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-      alert('저장되었습니다!');
-      document.getElementById('postForm').reset();
-      loadPosts();  // 저장 후 새로고침
-    })
-    .catch(error => {
-      alert('오류가 발생했습니다.');
-      console.error('Error!', error.message);
-    });
-  });
 
   // 작성된 글 불러오기
   function loadPosts() {
@@ -79,4 +59,42 @@
       });
     });
   </script>
+  <script>
+document.getElementById('postForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  fetch('https://script.google.com/macros/s/AKfycbwueMDSXnzjlKjEQhb3u758EyE1f-pSsmPYd6yUaoN0Q5UV7EeZRnoL-XSjJpZXUxsA4g/exec', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.text())
+  .then(data => {
+    alert('저장되었습니다!');
+    document.getElementById('postForm').reset();
+    loadPosts();
+  })
+  .catch(error => {
+    alert('오류가 발생했습니다.');
+    console.error('Error!', error.message);
+  });
+});
+
+function loadPosts() {
+  fetch('https://script.google.com/macros/s/AKfycbwueMDSXnzjlKjEQhb3u758EyE1f-pSsmPYd6yUaoN0Q5UV7EeZRnoL-XSjJpZXUxsA4g/exec')
+    .then(res => res.json())
+    .then(data => {
+      const postList = document.getElementById('postList');
+      postList.innerHTML = '';
+      data.forEach(post => {
+        const div = document.createElement('div');
+        div.innerHTML = `<strong>${post.name}</strong>: ${post.message}`;
+        postList.appendChild(div);
+      });
+    });
+}
+window.onload = loadPosts;
+</script>
+  <h3>📜 작성된 글</h3>
+<div id="postList">불러오는 중...</div>
+
 </body>
