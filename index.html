@@ -1,97 +1,57 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>쭈니의 방명록</title>
+  <meta charset="UTF-8">
+  <title>쭈니 방명록</title>
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-    }
-    h1 { font-size: 2em; }
-    input, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      margin-bottom: 10px;
-    }
-    button {
-      padding: 10px 20px;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    .message {
-      border-top: 1px solid #ccc;
-      padding: 10px 0;
-    }
-    .timestamp {
-      color: gray;
-      font-size: 0.9em;
-    }
+    body { font-family: sans-serif; margin: 40px; }
+    input, textarea { width: 100%; margin: 10px 0; padding: 8px; }
+    button { padding: 10px 20px; background: green; color: white; border: none; }
+    .messages { margin-top: 30px; }
   </style>
 </head>
 <body>
+  <h1>방명록 ✍️</h1>
+  <form id="guestForm">
+    <input type="text" name="name" placeholder="이름" required />
+    <textarea name="message" placeholder="메시지" required></textarea>
+    <button type="submit">저장하기</button>
+  </form>
 
-<h1>안녕하세요! 여기는 zzuni.kro.kr 입니다 🎉</h1>
-<p>처음 만든 웹페이지예요. 반가워요!</p>
+  <div class="messages">
+    <h2>📜 작성된 글</h2>
+    <div id="messageList">불러오는 중...</div>
+  </div>
 
-<h2>방명록 ✍️</h2>
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwueMDSXnzjlKjEQhb3u758EyE1f-pSsmPYd6yUaoN0Q5UV7EeZRnoL-XSjJpZXUxsA4g/exec";
 
-<form id="postForm">
-  <input type="text" name="name" placeholder="이름" required />
-  <textarea name="message" rows="3" placeholder="메시지" required></textarea>
-  <button type="submit">저장하기</button>
-</form>
+    // 작성된 글 불러오기
+    function loadMessages() {
+      fetch(scriptURL)
+        .then(res => res.text())
+        .then(data => document.getElementById("messageList").innerHTML = data)
+        .catch(err => document.getElementById("messageList").innerText = "불러오기 실패");
+    }
 
-<h2>📜 작성된 글</h2>
-<div id="messages">불러오는 중...</div>
-
-<script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbwueMDSXnzjlKjEQhb3u758EyE1f-pSsmPYd6yUaoN0Q5UV7EeZRnoL-XSjJpZXUxsA4g/exec";
-
-document.getElementById('postForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const formData = new FormData(this);
-
-  fetch(scriptURL, { method: 'POST', body: formData })
-    .then(response => response.text())
-    .then(() => {
-      alert('저장되었습니다!');
-      this.reset();
-      loadMessages();
-    })
-    .catch(error => {
-      alert('오류가 발생했습니다.');
-      console.error('Error!', error.message);
+    // 제출 이벤트 처리
+    document.getElementById("guestForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      fetch(scriptURL, {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.text())
+      .then(() => {
+        alert("저장되었습니다!");
+        this.reset();
+        loadMessages();
+      })
+      .catch(() => alert("오류가 발생했습니다."));
     });
-});
 
-function loadMessages() {
-  fetch(scriptURL)
-    .then(res => res.json())
-    .then(data => {
-      const messages = document.getElementById('messages');
-      messages.innerHTML = '';
-      data.reverse().forEach(row => {
-        const div = document.createElement('div');
-        div.className = 'message';
-        div.innerHTML = `<strong>${row.name}</strong>: ${row.message}<div class="timestamp">${new Date(row.timestamp).toLocaleString()}</div>`;
-        messages.appendChild(div);
-      });
-    })
-    .catch(err => {
-      document.getElementById('messages').innerText = '불러오기 실패';
-      console.error(err);
-    });
-}
-
-// 초기 메시지 로드
-loadMessages();
-</script>
-
+    loadMessages();
+  </script>
 </body>
 </html>
