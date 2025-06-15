@@ -8,8 +8,58 @@
     <textarea name="message" placeholder="메시지" required></textarea><br><br>
     <button type="submit">저장하기</button>
   </form>
+<h2>📜 작성된 글</h2>
+<div id="postList">불러오는 중...</div>
 
   <script>
+    <script>
+  // 폼 전송 (이미 있던 코드)
+  document.getElementById('postForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    fetch('https://script.google.com/macros/s/AKfycbwueMDSXnzjlKjEQhb3u758EyE1f-pSsmPYd6yUaoN0Q5UV7EeZRnoL-XSjJpZXUxsA4g/exec', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+      alert('저장되었습니다!');
+      document.getElementById('postForm').reset();
+      loadPosts();  // 저장 후 새로고침
+    })
+    .catch(error => {
+      alert('오류가 발생했습니다.');
+      console.error('Error!', error.message);
+    });
+  });
+
+  // 작성된 글 불러오기
+  function loadPosts() {
+    fetch('https://script.google.com/macros/s/AKfycbwueMDSXnzjlKjEQhb3u758EyE1f-pSsmPYd6yUaoN0Q5UV7EeZRnoL-XSjJpZXUxsA4g/exec')
+      .then(response => response.json())
+      .then(data => {
+        const postList = document.getElementById('postList');
+        postList.innerHTML = ''; // 기존 내용 지우기
+
+        data.reverse().forEach(row => {
+          const name = row.name || '익명';
+          const message = row.message || '';
+          const item = document.createElement('div');
+          item.innerHTML = `<p><strong>${name}</strong>: ${message}</p><hr>`;
+          postList.appendChild(item);
+        });
+      })
+      .catch(error => {
+        document.getElementById('postList').innerText = '불러오는 중 오류가 발생했습니다.';
+        console.error('Error!', error.message);
+      });
+  }
+
+  // 페이지 로드 시 글 불러오기
+  window.onload = loadPosts;
+</script>
+
     document.getElementById('postForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const formData = new FormData(this);
