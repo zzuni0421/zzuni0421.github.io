@@ -1,47 +1,93 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>쭈니의 프로필 ✨</title>
+  <meta charset="UTF-8" />
+  <title>쭈니의 홈페이지</title>
   <style>
     body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background-color: #f4f4f4;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0c3fc, #8ec5fc);
+      color: #333;
       text-align: center;
-      padding: 60px;
+      margin: 0;
+      padding: 0;
     }
-    .card {
-      background: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      max-width: 500px;
-      margin: 0 auto;
+
+    header {
+      background-color: #ffffffcc;
+      padding: 40px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+
     h1 {
-      font-size: 32px;
+      font-size: 2.5em;
+      margin-bottom: 0.3em;
     }
+
     p {
-      font-size: 18px;
-      margin: 10px 0;
+      font-size: 1.2em;
     }
-    a {
-      color: #0077cc;
+
+    .profile {
+      margin: 40px auto;
+      max-width: 300px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .profile img {
+      width: 120px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .button-area {
+      margin-top: 30px;
+    }
+
+    .button-area a {
+      display: inline-block;
+      padding: 12px 24px;
+      margin: 10px;
+      background-color: #6a5acd;
+      color: white;
+      border-radius: 30px;
       text-decoration: none;
+      transition: background 0.3s;
     }
-    a:hover {
-      text-decoration: underline;
+
+    .button-area a:hover {
+      background-color: #4b3aa8;
+    }
+
+    footer {
+      margin-top: 80px;
+      font-size: 0.9em;
+      color: #555;
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>안녕하세요! 여기는 zzuni.kro.kr 입니다 😎</h1>
+    <p>처음 만든 웹페이지예요. 반가워요!</p>
+  </header>
 
-  <div class="card">
-    <h1>👋 안녕하세요! 쭈니입니다</h1>
-    <p><strong>이메일:</strong> <a href="mailto:zzuni0421@gmail.com">zzuni@example.com</a></p>
-    <p><strong>GitHub:</strong> <a href="https://github.com/zzuni0421" target="_blank">github.com/zzuni0421</a></p>
-    <p><strong>소개:</strong> 안녕하세요? 이 사이트 개발자 쭈니입니다.</p>
+  <section class="profile">
+    <img src="행운.png" alt="프로필 사진" />
+    <h2>쭈니</h2>
+    <p>👋 파이썬과 웹 개발을 배우고 있는 중이에요.<br>이 홈페이지는 저만의 공간입니다!</p>
+  </section>
+
+  <div class="button-area">
+    <a href="https://github.com/zzuni0421" target="_blank">GitHub 보기</a>
+    <a href="mailto:zzuni0421@gmail.com">이메일 보내기</a>
   </div>
 
+  <footer>
+    © 2025 쭈니의 홈페이지
+  </footer>
 </body>
 </html>
