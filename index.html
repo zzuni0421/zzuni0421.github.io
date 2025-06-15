@@ -1,116 +1,32 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <title>쭈니의 게시판</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9f9f9;
-      padding: 30px;
-      max-width: 700px;
-      margin: auto;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .profile {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #ddd;
-    }
-    h1 {
-      margin-top: 15px;
-      font-size: 28px;
-      color: #333;
-    }
-    .post-form {
-      margin-bottom: 30px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 15px;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .posts {
-      margin-top: 20px;
-    }
-    .post {
-      background: #fff;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    }
-    .post .author {
-      font-weight: bold;
-    }
-    .post .date {
-      font-size: 12px;
-      color: #999;
-      margin-bottom: 5px;
-    }
-  </style>
-</head>
 <body>
-  <header>
-    <img src="행운.png" alt="프로필" class="profile">
-    <h1>쭈니의 게시판 📝</h1>
-  </header>
+  <h1>안녕하세요! 여기는 zzuni.kro.kr 입니다 🥳</h1>
+  <p>처음 만든 웹페이지예요. 반가워요!</p>
 
-  <div class="post-form">
-    <input type="text" id="author" placeholder="작성자 이름" />
-    <textarea id="content" rows="4" placeholder="내용을 입력하세요"></textarea>
-    <button onclick="postMessage()">작성하기</button>
-  </div>
-
-  <div class="posts" id="posts">
-    <!-- 여기에 게시글이 나타남 -->
-  </div>
+  <h2>방명록 ✍️</h2>
+  <form id="postForm">
+    <input type="text" name="name" placeholder="이름" required><br><br>
+    <textarea name="message" placeholder="메시지" required></textarea><br><br>
+    <button type="submit">저장하기</button>
+  </form>
 
   <script>
-    function postMessage() {
-      const author = document.getElementById("author").value;
-      const content = document.getElementById("content").value;
-      const now = new Date().toLocaleString();
+    document.getElementById('postForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
 
-      const postDiv = document.createElement("div");
-      postDiv.className = "post";
-      postDiv.innerHTML = `
-        <div class="author">${author}</div>
-        <div class="date">${now}</div>
-        <div class="content">${content}</div>
-      `;
-
-      document.getElementById("posts").prepend(postDiv);
-
-      // Clear input
-      document.getElementById("author").value = "";
-      document.getElementById("content").value = "";
-    }
+      fetch('https://script.google.com/macros/s/AKfycbwueMDSXnzjlKjEQhb3u758EyE1f-pSsmPYd6yUaoN0Q5UV7EeZRnoL-XSjJpZXUxsA4g/exec', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        alert('저장되었습니다!');
+        document.getElementById('postForm').reset();
+      })
+      .catch(error => {
+        alert('오류가 발생했습니다.');
+        console.error('Error!', error.message);
+      });
+    });
   </script>
 </body>
-</html>
