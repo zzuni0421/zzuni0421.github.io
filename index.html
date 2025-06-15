@@ -1,73 +1,116 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>나의 게시판</title>
+  <meta charset="UTF-8" />
+  <title>쭈니의 게시판</title>
   <style>
-    body { font-family: sans-serif; padding: 2em; max-width: 600px; margin: auto; }
-    input, textarea { width: 100%; margin-top: 0.5em; padding: 0.5em; }
-    button { margin-top: 1em; padding: 0.7em 1.2em; background: #4CAF50; color: white; border: none; border-radius: 5px; }
-    .post { border-bottom: 1px solid #ccc; padding: 1em 0; }
-    .time { color: #888; font-size: 0.9em; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      padding: 30px;
+      max-width: 700px;
+      margin: auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .profile {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ddd;
+    }
+    h1 {
+      margin-top: 15px;
+      font-size: 28px;
+      color: #333;
+    }
+    .post-form {
+      margin-bottom: 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .posts {
+      margin-top: 20px;
+    }
+    .post {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    .post .author {
+      font-weight: bold;
+    }
+    .post .date {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 <body>
+  <header>
+    <img src="행운.png" alt="프로필" class="profile">
+    <h1>쭈니의 게시판 📝</h1>
+  </header>
 
-  <h1>📌 게시판</h1>
+  <div class="post-form">
+    <input type="text" id="author" placeholder="작성자 이름" />
+    <textarea id="content" rows="4" placeholder="내용을 입력하세요"></textarea>
+    <button onclick="postMessage()">작성하기</button>
+  </div>
 
-  <input type="text" id="name" placeholder="이름">
-  <textarea id="content" rows="4" placeholder="내용"></textarea>
-  <button onclick="submitPost()">등록</button>
-
-  <div id="posts"></div>
+  <div class="posts" id="posts">
+    <!-- 여기에 게시글이 나타남 -->
+  </div>
 
   <script>
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbwQChXyMYZ3-sHUk8juB4_sV6YkbqlajegxVrY3k-gYpQ1xOpTAVGdnTkIwjnwgFNM/exec"; // 👈 여기에 복사한 URL 넣기
-
-    function submitPost() {
-      const name = document.getElementById("name").value;
+    function postMessage() {
+      const author = document.getElementById("author").value;
       const content = document.getElementById("content").value;
+      const now = new Date().toLocaleString();
 
-      if (!name || !content) {
-        alert("이름과 내용을 모두 입력해주세요.");
-        return;
-      }
+      const postDiv = document.createElement("div");
+      postDiv.className = "post";
+      postDiv.innerHTML = `
+        <div class="author">${author}</div>
+        <div class="date">${now}</div>
+        <div class="content">${content}</div>
+      `;
 
-      fetch(scriptUrl, {
-        method: "POST",
-        body: new URLSearchParams({ name, content })
-      })
-      .then(res => res.text())
-      .then(() => {
-        alert("저장 완료!");
-        document.getElementById("name").value = "";
-        document.getElementById("content").value = "";
-        loadPosts();
-      });
+      document.getElementById("posts").prepend(postDiv);
+
+      // Clear input
+      document.getElementById("author").value = "";
+      document.getElementById("content").value = "";
     }
-
-    function loadPosts() {
-      fetch(scriptUrl)
-        .then(res => res.json())
-        .then(data => {
-          const container = document.getElementById("posts");
-          container.innerHTML = "";
-
-          data.reverse().forEach(post => {
-            const div = document.createElement("div");
-            div.className = "post";
-            div.innerHTML = `
-              <strong>${post.name}</strong><br>
-              <div>${post.content.replace(/\n/g, "<br>")}</div>
-              <div class="time">${new Date(post.time).toLocaleString()}</div>
-            `;
-            container.appendChild(div);
-          });
-        });
-    }
-
-    loadPosts(); // 페이지 열릴 때 불러오기
   </script>
-
 </body>
 </html>
