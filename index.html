@@ -88,10 +88,28 @@
   </div>
 
   <script>
+    <style>
+.board-button {
+  background-color: #6c63ff;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.board-button:hover {
+  background-color: #5548d8;
+}
+</style>
+
   document.getElementById("goBoard").addEventListener("click", function () {
     // 게시판 HTML 페이지로 이동 (예: board.html 이라고 가정)
     window.location.href = "board.html";
   });
+<button onclick="location.href='board.html'" class="board-button">방명록 보기</button>
 </script>
 
   <SCRIPT>
