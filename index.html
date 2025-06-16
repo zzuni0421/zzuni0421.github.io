@@ -84,11 +84,16 @@
   <div class="button-area">
     <a href="https://github.com/zzuni0421" target="_blank">GitHub 보기</a>
     <a href="mailto:zzuni0421@gmail.com">이메일 보내기</a>
+    <button id="goBoard">게시판 보기</button>
   </div>
 
-  <footer>
-    © 2025 쭈니의 홈페이지
-  </footer>
+  <script>
+  document.getElementById("goBoard").addEventListener("click", function () {
+    // 게시판 HTML 페이지로 이동 (예: board.html 이라고 가정)
+    window.location.href = "board.html";
+  });
+</script>
+
   <SCRIPT>
   document.getElementById("submit").addEventListener("click", async function () {
   const name = document.getElementById("name").value;
@@ -127,4 +132,7 @@
 </SCRIPT>
 
 </body>
+  <footer>
+    © 2025 쭈니의 홈페이지
+  </footer>
 </html>
