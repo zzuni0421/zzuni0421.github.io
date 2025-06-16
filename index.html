@@ -1,156 +1,54 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>쭈니의 홈페이지</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #e0c3fc, #8ec5fc);
-      color: #333;
-      text-align: center;
+      font-family: sans-serif;
+      background: linear-gradient(to right, #d4a5f9, #a5d8f9);
       margin: 0;
       padding: 0;
+      text-align: center;
     }
-
-    header {
-      background-color: #ffffffcc;
-      padding: 40px 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 0.3em;
-    }
-
-    p {
-      font-size: 1.2em;
-    }
-
-    .profile {
-      margin: 40px auto;
-      max-width: 300px;
-      background: #fff;
+    .card {
+      background-color: white;
+      border-radius: 20px;
       padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 300px;
+      margin: 100px auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
-
-    .profile img {
-      width: 120px;
-      border-radius: 50%;
-      margin-bottom: 10px;
+    .buttons {
+      margin-top: 20px;
     }
-
-    .button-area {
-      margin-top: 30px;
-    }
-
-    .button-area a {
-      display: inline-block;
-      padding: 12px 24px;
-      margin: 10px;
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
       background-color: #6a5acd;
       color: white;
-      border-radius: 30px;
-      text-decoration: none;
-      transition: background 0.3s;
+      cursor: pointer;
     }
-
-    .button-area a:hover {
-      background-color: #4b3aa8;
-    }
-
-    footer {
-      margin-top: 80px;
-      font-size: 0.9em;
-      color: #555;
+    button:hover {
+      background-color: #483d8b;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>안녕하세요! 여기는 zzuni.kro.kr 입니다 😎</h1>
-    <p>처음 만든 웹페이지예요. 반가워요!</p>
-  </header>
-
-  <section class="profile">
-    <img src="행운.png" alt="프로필 사진" />
-    <h2>쭈니</h2>
+  <h2>처음 만든 웹페이지예요. 반가워요!</h2>
+  <div class="card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Autumn_tree_2021.jpg/240px-Autumn_tree_2021.jpg" alt="profile" width="100" style="border-radius: 50%;" />
+    <h3>쭈니</h3>
     <p>👋 파이썬과 웹 개발을 배우고 있는 중이에요.<br>이 홈페이지는 저만의 공간입니다!</p>
-  </section>
-
-  <div class="button-area">
-    <a href="https://github.com/zzuni0421" target="_blank">GitHub 보기</a>
-    <a href="mailto:zzuni0421@gmail.com">이메일 보내기</a>
-    <button id="goBoard">게시판 보기</button>
   </div>
-
-  <script>
-    <style>
-.board-button {
-  background-color: #6c63ff;
-  color: white;
-  padding: 10px 20px;
-  margin-top: 20px;
-  border: none;
-  border-radius: 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.board-button:hover {
-  background-color: #5548d8;
-}
-</style>
-
-  document.getElementById("goBoard").addEventListener("click", function () {
-    // 게시판 HTML 페이지로 이동 (예: board.html 이라고 가정)
-    window.location.href = "board.html";
-  });
-<button id="boardBtn">게시판 보기</button>
-</script>
-
-  <SCRIPT>
-  document.getElementById("submit").addEventListener("click", async function () {
-  const name = document.getElementById("name").value;
-  const message = document.getElementById("message").value;
-
-  if (!name || !message) {
-    alert("이름과 내용을 모두 입력해주세요.");
-    return;
-  }
-
-  try {
-    const response = await fetch("https://script.google.com/macros/s/1iUgQ7pfyhuPw23xaIgtsvnUkDtiaB2S8ESdXFwf0J7LMVOiK2UvZjI6C/exec", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: new URLSearchParams({
-        name: name,
-        message: message
-      })
-    });
-
-    const text = await response.text();
-
-    if (!response.ok) {
-      throw new Error(`서버 오류 (${response.status}): ${text}`);
-    }
-
-    alert("작성 완료!");
-    location.reload(); // 성공 시 페이지 새로고침
-
-  } catch (error) {
-    alert("에러 발생: " + error.message);
-  }
-});
-</SCRIPT>
-
+  <div class="buttons">
+    <button onclick="location.href='https://github.com/zzuni0421'">GitHub 보기</button>
+    <button onclick="location.href='mailto:zzuni@example.com'">이메일 보내기</button>
+    <button onclick="location.href='board.html'">게시판 보기</button>
+  </div>
 </body>
-  <footer>
-    © 2025 쭈니의 홈페이지
-  </footer>
 </html>
