@@ -89,5 +89,71 @@
   <footer>
     © 2025 쭈니의 홈페이지
   </footer>
+  <!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>방명록</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; }
+    form, .entry { margin-bottom: 1em; }
+    input, textarea { width: 100%; padding: 0.5em; }
+    button { padding: 0.5em 1em; margin-top: 0.5em; }
+    .entry { border-bottom: 1px solid #ddd; padding-bottom: 1em; }
+  </style>
+</head>
+<body>
+  <h1>방명록</h1>
+
+  <form id="guestbook-form">
+    <input type="text" id="name" placeholder="이름" required />
+    <textarea id="message" placeholder="메시지" required></textarea>
+    <button type="submit">작성</button>
+  </form>
+
+  <div id="entries"></div>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwueMDSXnzjlKjEQhb3u758EyE1f-pSsmPYd6yUaoN0Q5UV7EeZRnoL-XSjJpZXUxsA4g/exec";
+
+    // 글 작성
+    document.getElementById('guestbook-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const message = document.getElementById('message').value;
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: new URLSearchParams({ name, message })
+      })
+      .then(() => {
+        alert('작성 완료!');
+        document.getElementById('guestbook-form').reset();
+        loadEntries(); // 새로고침 없이 다시 불러오기
+      })
+      .catch(error => alert('오류가 발생했어요 😢'));
+    });
+
+    // 글 불러오기
+    function loadEntries() {
+      fetch(scriptURL)
+        .then(res => res.json())
+        .then(data => {
+          const entriesDiv = document.getElementById('entries');
+          entriesDiv.innerHTML = '';
+          data.reverse().forEach(entry => {
+            const div = document.createElement('div');
+            div.className = 'entry';
+            div.innerHTML = `<strong>${entry.name}</strong><p>${entry.message}</p>`;
+            entriesDiv.appendChild(div);
+          });
+        });
+    }
+
+    loadEntries(); // 페이지 로드시 실행
+  </script>
+</body>
+</html>
+
 </body>
 </html>
