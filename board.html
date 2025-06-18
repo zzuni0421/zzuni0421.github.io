@@ -6,7 +6,54 @@
 </head>
 <body>
   <h1>쭈니의 게시판</h1>
-  <p>이 곳은 게시판입니다. 앞으로 여기에 글 목록이 생길 거예요!</p>
+  <!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>게시판</title>
+  <style>
+    body { font-family: 'Arial'; padding: 20px; background: #f9f9f9; }
+    .post { background: white; padding: 15px; margin-bottom: 10px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .date { font-size: 0.9em; color: #777; }
+    .name { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>📄 게시판 글 목록</h2>
+  <div id="posts">불러오는 중...</div>
+
+  <script>
+    const sheetURL = "https://script.google.com/macros/s/AKfycbxd7P22MLtUTUR3hl52E9sSifIol5ls0sCNDBtrJ63rZzPfNYKdX0fXG1DJkUMunpXJ/exec"; // 여기에 네 웹앱 주소 넣어야 함!
+
+    fetch(sheetURL)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("posts");
+        if (!Array.isArray(data) || data.length === 0) {
+          container.innerHTML = "<p>등록된 글이 없습니다.</p>";
+          return;
+        }
+
+        container.innerHTML = "";
+        data.reverse().forEach(post => {
+          const el = document.createElement("div");
+          el.className = "post";
+          el.innerHTML = `
+            <div class="date">${new Date(post.date).toLocaleString()}</div>
+            <div class="name">${post.name}</div>
+            <div class="message">${post.message}</div>
+          `;
+          container.appendChild(el);
+        });
+      })
+      .catch(err => {
+        document.getElementById("posts").innerHTML = "<p>데이터를 불러오지 못했습니다.</p>";
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
+
   <a href="index.html">홈으로 돌아가기</a>
 </body>
 </html>
