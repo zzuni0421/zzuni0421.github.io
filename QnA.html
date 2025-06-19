@@ -28,8 +28,6 @@
       e.preventDefault();
       const formData = new FormData(e.target);
       const question = document.getElementById("question").value;
-const question = document.getElementById("question").value;
-
       await fetch(`https://script.google.com/macros/s/.../exec?question=${encodeURIComponent(question)}`), {
         method: "POST",
         body: new URLSearchParams(formData)
