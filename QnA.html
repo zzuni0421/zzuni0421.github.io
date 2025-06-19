@@ -27,7 +27,7 @@
     document.getElementById("qform").onsubmit = async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
-      await fetch(https://script.google.com/macros/s/AKfycbyGlerqi5hIxuGYasLCTcGoZJuyO2f9nHERlriqgpCcT01Zl3R4i-rnbrNeKUChcoqM/exec, {
+      await fetch(https://script.google.com/macros/s/AKfycbyGlerqi5hIxuGYasLCTcGoZJuyO2f9nHERlriqgpCcT01Zl3R4i-rnbrNeKUChcoqM/exec), {
         method: "POST",
         body: new URLSearchParams(formData)
       });
