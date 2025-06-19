@@ -27,7 +27,10 @@
     document.getElementById("qform").onsubmit = async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
-      await fetch(https://script.google.com/macros/s/AKfycbyGlerqi5hIxuGYasLCTcGoZJuyO2f9nHERlriqgpCcT01Zl3R4i-rnbrNeKUChcoqM/exec), {
+      const question = document.getElementById("question").value;
+const question = document.getElementById("question").value;
+
+      await fetch(`https://script.google.com/macros/s/.../exec?question=${encodeURIComponent(question)}`), {
         method: "POST",
         body: new URLSearchParams(formData)
       });
