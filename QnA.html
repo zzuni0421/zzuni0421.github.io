@@ -21,13 +21,13 @@
   <div id="qna-list">불러오는 중...</div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbw3DlYe3CrWfmA7qkjDArf03tBO2L6zaf6AjOl9aj5EdOwIj0CB9qq8qeYnutZ_M-kh/exec"; // 여기에 너 URL 넣기!
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyGlerqi5hIxuGYasLCTcGoZJuyO2f9nHERlriqgpCcT01Zl3R4i-rnbrNeKUChcoqM/exec"; // 여기에 너 URL 넣기!
 
     // 질문 등록
     document.getElementById("qform").onsubmit = async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
-      await fetch(scriptURL, {
+      await fetch(https://script.google.com/macros/s/AKfycbyGlerqi5hIxuGYasLCTcGoZJuyO2f9nHERlriqgpCcT01Zl3R4i-rnbrNeKUChcoqM/exec, {
         method: "POST",
         body: new URLSearchParams(formData)
       });
@@ -58,4 +58,3 @@
   </script>
 </body>
 </html>
-
