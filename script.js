@@ -37,6 +37,9 @@ const memeMap = {
     "좆같은새끼": "ㅋㅋ 엉뚱 매력", "개변태": "ㅋㅋ 특이 매력"
 };
 
+const inputText = document.getElementById("inputText");
+const positiveBtn = document.getElementById("positiveBtn");
+const memeBtn = document.getElementById("memeBtn");
 const output = document.getElementById("output");
 const historyList = document.getElementById("history");
 
