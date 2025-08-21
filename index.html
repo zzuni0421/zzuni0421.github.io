@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -48,79 +47,6 @@
   <div class="buttons">
     <button onclick="location.href='https://github.com/zzuni0421'">GitHub 보기</button>
     <button onclick="location.href='mailto:zzuni0421@gmail.com'">이메일 보내기</button>
-    <button onclick="location.href='board.html'">게시판 보기</button>
   </div>
-  <!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>방명록</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
-    input, textarea { width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 15px; }
-    button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-    .entry { background: #f9f9f9; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
-  </style>
-</head>
-<body>
-  <h1>방명록</h1>
-
-  <form id="entryForm">
-    <label for="name">이름</label>
-    <input type="text" id="name" required />
-
-    <label for="message">메시지</label>
-    <textarea id="message" rows="4" required></textarea>
-
-    <button type="submit">글 남기기</button>
-  </form>
-
-  <h2>📜 남긴 글</h2>
-  <div id="entries"></div>
-
-  <script>
-    const form = document.getElementById('entryForm');
-    const entriesDiv = document.getElementById('entries');
-
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxd7P22MLtUTUR3hl52E9sSifIol5ls0sCNDBtrJ63rZzPfNYKdX0fXG1DJkUMunpXJ/exec";
-
-    // 글 작성
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const message = document.getElementById('message').value;
-
-      fetch(https://script.google.com/macros/s/AKfycbxd7P22MLtUTUR3hl52E9sSifIol5ls0sCNDBtrJ63rZzPfNYKdX0fXG1DJkUMunpXJ/exec, {
-        method: 'POST',
-        body: new URLSearchParams({ name, message })
-      })
-      .then(res => res.text())
-      .then(() => {
-        alert("글이 등록되었어요!");
-        form.reset();
-        loadEntries();
-      })
-      .catch(err => alert("오류가 발생했어요 😢"));
-    });
-
-    // 저장된 글 불러오기
-    function loadEntries() {
-      fetch(GOOGLE_SCRIPT_URL)
-        .then(res => res.json())
-        .then(data => {
-          entriesDiv.innerHTML = "";
-          data.reverse().forEach(entry => {
-            const div = document.createElement("div");
-            div.className = "entry";
-            div.innerHTML = `<strong>${entry.name}</strong><p>${entry.message}</p>`;
-            entriesDiv.appendChild(div);
-          });
-        });
-    }
-
-    loadEntries();
-  </script>
-
 </body>
 </html>
