@@ -2,22 +2,26 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>욕 번역기</title>
   <link rel="stylesheet" href="translatorstyle.css">
 </head>
 <body>
   <div class="container">
-    <h1>욕 번역기 🤬 → 😇</h1>
-    <textarea id="inputText" placeholder="여기에 텍스트 입력..."></textarea>
-    <button id="translateBtn">번역하기</button>
-    <p id="outputText"></p>
+    <h1>✨ 욕 번역기</h1>
 
-    <h2>번역 기록</h2>
-    <ul id="history"></ul>
+    <textarea id="inputText" placeholder="번역할 문장을 입력하세요..."></textarea>
+    <button onclick="translateText()">번역하기</button>
 
-    <button id="clearBtn" class="danger">기록 삭제 🗑️</button>
+    <div class="result-box">
+      <h3>📌 번역 결과</h3>
+      <div id="result">여기에 번역 결과가 표시됩니다.</div>
+    </div>
+
+    <h3>📜 번역 기록</h3>
+    <div id="history"></div>
   </div>
-  <script src="script.js"></script>
+
+  <script src="translator.js"></script>
 </body>
 </html>
+
