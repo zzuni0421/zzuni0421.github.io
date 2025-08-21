@@ -1,27 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>욕 번역기</title>
-  <link rel="stylesheet" href="translatorstyle.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>욕 번역기</title>
+    <link rel="stylesheet" href="translatorstyle.css">
 </head>
 <body>
-  <div class="container">
-    <h1>✨ 욕 번역기</h1>
-
-    <textarea id="inputText" placeholder="번역할 문장을 입력하세요..."></textarea>
-    <button onclick="translateText()">번역하기</button>
-
-    <div class="result-box">
-      <h3>📌 번역 결과</h3>
-      <div id="result">여기에 번역 결과가 표시됩니다.</div>
+    <div class="container">
+        <h1>욕 번역기</h1>
+        <textarea id="inputText" placeholder="여기에 욕을 입력하세요..."></textarea>
+        <button id="translateBtn">번역하기</button>
+        <h2>번역 결과:</h2>
+        <div id="outputText"></div>
     </div>
-
-    <h3>📜 번역 기록</h3>
-    <div id="history"></div>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-
