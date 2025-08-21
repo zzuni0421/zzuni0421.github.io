@@ -76,3 +76,18 @@ positiveBtn.addEventListener("click", () => translate("positive"));
 memeBtn.addEventListener("click", () => translate("meme"));
 
 renderHistory();
+
+// 기록 삭제 버튼 만들기
+const clearBtn = document.createElement("button");
+clearBtn.textContent = "기록 삭제 🗑️";
+clearBtn.style.marginTop = "10px";
+document.querySelector(".container")?.appendChild(clearBtn); // .container 안에 넣음
+
+clearBtn.addEventListener("click", () => {
+    if(confirm("정말로 모든 번역 기록을 삭제하시겠습니까? 🤔")) {
+        localStorage.removeItem("translationHistory");
+        history = [];
+        renderHistory();
+        alert("모든 기록이 삭제되었습니다!");
+    }
+});
