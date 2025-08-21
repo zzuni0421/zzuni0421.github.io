@@ -43,7 +43,6 @@ const memeBtn = document.getElementById("memeBtn");
 const output = document.getElementById("output");
 const historyList = document.getElementById("history");
 
-// 로컬스토리지에서 히스토리 가져오기
 let history = JSON.parse(localStorage.getItem("translationHistory")) || [];
 
 function saveHistory(text) {
@@ -62,14 +61,13 @@ function renderHistory() {
     });
 }
 
-// 번역 함수
 function translate(type) {
     let text = inputText.value;
     if(!text) return alert("입력값이 비어있어요 🤔");
-    
+
     const map = type === "positive" ? positiveMap : memeMap;
     let translated = text.split(" ").map(word => map[word] || word).join(" ");
-    
+
     output.textContent = translated;
     saveHistory(translated);
 }
@@ -77,5 +75,4 @@ function translate(type) {
 positiveBtn.addEventListener("click", () => translate("positive"));
 memeBtn.addEventListener("click", () => translate("meme"));
 
-// 페이지 로드 시 히스토리 렌더
 renderHistory();
