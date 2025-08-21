@@ -49,3 +49,14 @@ button:hover {
     border-radius: 10px;
     min-height: 50px;
 }
+#history {
+    margin-top: 15px;
+    padding-left: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#history li {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
