@@ -1,0 +1,77 @@
+body {
+    font-family: 'Apple SD Gothic Neo', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: none;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0 20px 0;
+}
+
+button {
+    flex: 1;
+    padding: 10px 0;
+    margin: 0 5px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+#positiveBtn { background-color: #4caf50; color: #fff; }
+#memeBtn { background-color: #ff9800; color: #fff; }
+
+.output {
+    padding: 10px;
+    background-color: #e0f7fa;
+    border-radius: 5px;
+    min-height: 40px;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.history {
+    list-style: none;
+    padding: 0;
+}
+
+.history li {
+    background-color: #fff3e0;
+    margin-bottom: 5px;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 14px;
+}
