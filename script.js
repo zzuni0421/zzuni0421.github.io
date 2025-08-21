@@ -37,7 +37,42 @@ const memeMap = {
     "좆같은새끼": "ㅋㅋ 엉뚱 매력", "개변태": "ㅋㅋ 특이 매력"
 };
 
-const inputText = document.getElementById("inputText");
-const positiveBtn = document.getElementById("positiveBtn");
-const memeBtn = document.getElementById("memeBtn");
-const output =
+const output = document.getElementById("output");
+const historyList = document.getElementById("history");
+
+// 로컬스토리지에서 히스토리 가져오기
+let history = JSON.parse(localStorage.getItem("translationHistory")) || [];
+
+function saveHistory(text) {
+    history.unshift(text);
+    if(history.length > 10) history.pop();
+    localStorage.setItem("translationHistory", JSON.stringify(history));
+    renderHistory();
+}
+
+function renderHistory() {
+    historyList.innerHTML = "";
+    history.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        historyList.appendChild(li);
+    });
+}
+
+// 번역 함수
+function translate(type) {
+    let text = inputText.value;
+    if(!text) return alert("입력값이 비어있어요 🤔");
+    
+    const map = type === "positive" ? positiveMap : memeMap;
+    let translated = text.split(" ").map(word => map[word] || word).join(" ");
+    
+    output.textContent = translated;
+    saveHistory(translated);
+}
+
+positiveBtn.addEventListener("click", () => translate("positive"));
+memeBtn.addEventListener("click", () => translate("meme"));
+
+// 페이지 로드 시 히스토리 렌더
+renderHistory();
