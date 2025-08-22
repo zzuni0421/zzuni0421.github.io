@@ -201,3 +201,28 @@ filterMood.addEventListener("change", renderList);
 function updateCharCount() {
   charCount.textContent = `${contentInput.value.length}자`;
 }
+
+function renderHistory() {
+  const historyList = document.getElementById("entryList");
+  historyList.innerHTML = "";
+
+  history.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = `${item.date} ${item.mood} - ${item.content.slice(0, 20)}...`;
+
+    // 오늘 일기 보기 버튼
+    const diaryBtn = document.createElement("button");
+    diaryBtn.textContent = "오늘 일기 보기";
+    diaryBtn.className = "secondary small-btn";
+    diaryBtn.addEventListener("click", () => {
+      // 아이디 로컬에서 가져오기 + 순번 처리
+      const baseId = item.user || "guest";
+      let uniqueId = generateUniqueId(baseId); // 앞에서 만든 중복 방지 함수
+      const diaryUrl = `${location.origin}/하루일과?${uniqueId}`;
+      window.location.href = diaryUrl;
+    });
+
+    li.appendChild(diaryBtn);
+    historyList.appendChild(li);
+  });
+}
