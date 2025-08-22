@@ -218,3 +218,10 @@ button.outline:hover { background: #f3f4f6; }
   font-size: 0.85rem;
   text-align: center;
 }
+
+.small-btn {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  margin-left: 0.5rem;
+  border-radius: 6px;
+}
