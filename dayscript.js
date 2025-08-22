@@ -226,3 +226,16 @@ function renderHistory() {
     historyList.appendChild(li);
   });
 }
+
+function generateUniqueId(baseId) {
+  const users = JSON.parse(localStorage.getItem("users") || "{}");
+  let count = 1;
+  let uniqueId = baseId;
+
+  while (users[uniqueId]) {
+    count++;
+    uniqueId = `${count}-${baseId}`;
+  }
+
+  return uniqueId;
+}
