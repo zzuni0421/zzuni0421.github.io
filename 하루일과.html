@@ -1,72 +1,41 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>하루 기록 앱</title>
-  <link rel="stylesheet" href="하루일과style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>하루 기록장</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="container">
-    <header class="app-header">
-      <h1>하루 기록</h1>
-      <div class="actions-row">
-        <button id="btnNew" class="secondary">새 기록</button>
-        <button id="btnSave" class="primary">저장</button>
-        <button id="btnDelete" class="danger">삭제</button>
-        <button id="btnExport" class="secondary">내보내기</button>
-        <button id="btnImport" class="secondary">가져오기</button>
-        <input type="file" id="fileImport" accept="application/json" hidden />
-        <button id="btnClearAll" class="danger outline">모두 지우기</button>
-      </div>
-    </header>
 
-    <section class="editor">
-      <div class="row">
-        <label>날짜
-          <input type="date" id="dateInput" />
-        </label>
-        <label>기분
-          <select id="moodSelect">
-            <option value="">선택</option>
-            <option value="🙂">🙂 좋음</option>
-            <option value="😐">😐 보통</option>
-            <option value="😢">😢 다운</option>
-            <option value="😡">😡 화남</option>
-            <option value="😴">😴 피곤</option>
-          </select>
-        </label>
-        <label>태그(쉼표로 구분)
-          <input type="text" id="tagsInput" placeholder="예: 공부, 운동, 프로젝트" />
-        </label>
-      </div>
+  <div id="authScreen">
+    <h2>🔑 로그인 / 가입</h2>
+    <input type="text" id="username" placeholder="아이디">
+    <input type="password" id="password" placeholder="비밀번호">
+    <button id="loginBtn">로그인</button>
+    <button id="signupBtn">회원가입</button>
+    <p id="authMsg"></p>
+  </div>
 
-      <label>오늘 한 일 / 메모
-        <textarea id="contentInput" rows="10" placeholder="오늘 하루를 기록해보세요..."></textarea>
-      </label>
-      <div class="meta-row">
-        <span id="charCount">0자</span>
-        <span id="autosaveHint" aria-live="polite"></span>
-      </div>
-    </section>
+  <div id="noteScreen" style="display:none;">
+    <h2 id="welcome"></h2>
+    <button id="logoutBtn">로그아웃</button>
 
-    <section class="list">
-      <div class="list-controls">
-        <input id="searchInput" type="search" placeholder="내용/태그 검색" />
-        <select id="filterMood">
-          <option value="">전체 기분</option>
-          <option value="🙂">🙂</option>
-          <option value="😐">😐</option>
-          <option value="😢">😢</option>
-          <option value="😡">😡</option>
-          <option value="😴">😴</option>
-        </select>
-      </div>
-      <ul id="entryList" class="entry-list" aria-live="polite"></ul>
-    </section>
-  </main>
+    <div class="note-section">
+      <h3>📝 하루 기록장 </h3>
+      <textarea id="dailyNoteInput" placeholder="오늘 하루 기록을 남겨보세요..."></textarea>
+      <button id="saveDailyBtn">저장</button>
+      <ul id="dailyNoteList"></ul>
+    </div>
 
-  <footer class="footer">로컬에만 저장됩니다. | zzuni</footer>
+    <div class="note-section">
+      <h3>📜 내 전체 기록</h3>
+      <textarea id="noteInput" placeholder="기록을 입력하세요..."></textarea>
+      <button id="saveBtn">저장</button>
+      <ul id="noteList"></ul>
+    </div>
+  </div>
+
   <script src="dayscript.js"></script>
 </body>
 </html>
