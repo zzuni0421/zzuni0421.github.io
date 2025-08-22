@@ -1,45 +1,24 @@
 body {
-  font-family: "Pretendard", sans-serif;
-  background: #f5f5f5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  font-family: sans-serif;
+  margin: 0;
+  background: #fafafa;
+  color: #333;
 }
-
-#authScreen, #noteScreen {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  width: 350px;
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 1rem;
 }
-
-input, textarea, button {
-  display: block;
-  width: 100%;
-  margin: 8px 0;
-  padding: 10px;
-  font-size: 14px;
+.hidden { display: none; }
+.auth-section, .auth-box {
+  text-align: center;
+  margin-top: 5rem;
 }
-
-textarea {
-  height: 80px;
-  resize: none;
+input, select, textarea, button {
+  margin: .3rem;
+  padding: .5rem;
 }
-
-button {
-  background: #4cafef;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #2196f3;
-}
-
-.note-section {
-  margin-top: 20px;
-}
+.actions-row { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .5rem; }
+.entry-list { list-style: none; padding: 0; }
+.entry-list li { padding: .3rem; border-bottom: 1px solid #ddd; cursor: pointer; }
+.footer { text-align: center; padding: 1rem; color: #666; font-size: .8rem; }
