@@ -1,203 +1,121 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const STORAGE_KEY = 'dailyJournal.v1';
+const authScreen = document.getElementById("authScreen");
+const noteScreen = document.getElementById("noteScreen");
+const loginBtn = document.getElementById("loginBtn");
+const signupBtn = document.getElementById("signupBtn");
+const logoutBtn = document.getElementById("logoutBtn");
 
-  // Elements
-  const dateInput = document.getElementById('dateInput');
-  const moodSelect = document.getElementById('moodSelect');
-  const tagsInput = document.getElementById('tagsInput');
-  const contentInput = document.getElementById('contentInput');
-  const charCount = document.getElementById('charCount');
-  const autosaveHint = document.getElementById('autosaveHint');
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
+const authMsg = document.getElementById("authMsg");
 
-  const btnNew = document.getElementById('btnNew');
-  const btnSave = document.getElementById('btnSave');
-  const btnDelete = document.getElementById('btnDelete');
-  const btnExport = document.getElementById('btnExport');
-  const btnImport = document.getElementById('btnImport');
-  const btnClearAll = document.getElementById('btnClearAll');
-  const fileImport = document.getElementById('fileImport');
+const welcome = document.getElementById("welcome");
+const noteInput = document.getElementById("noteInput");
+const saveBtn = document.getElementById("saveBtn");
+const noteList = document.getElementById("noteList");
 
-  const entryList = document.getElementById('entryList');
-  const searchInput = document.getElementById('searchInput');
-  const filterMood = document.getElementById('filterMood');
+const dailyNoteInput = document.getElementById("dailyNoteInput");
+const saveDailyBtn = document.getElementById("saveDailyBtn");
+const dailyNoteList = document.getElementById("dailyNoteList");
 
-  // State
-  let db = loadDB();
+let currentUser = null;
 
-  // Utils
-  function todayStr(){
-    const d = new Date(); const m = String(d.getMonth()+1).padStart(2,'0');
-    const day = String(d.getDate()).padStart(2,'0'); return `${d.getFullYear()}-${m}-${day}`;
-  }
-  function loadDB(){
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
-    catch { return {}; }
-  }
-  function saveDB(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+// 🔹 회원가입
+signupBtn.addEventListener("click", () => {
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value;
 
-  function readForm(){
-    return {
-      date: dateInput.value,
-      mood: moodSelect.value,
-      tags: tagsInput.value,
-      content: contentInput.value
-    };
-  }
-  function writeForm(entry){
-    dateInput.value = entry.date || todayStr();
-    moodSelect.value = entry.mood || '';
-    tagsInput.value = entry.tags || '';
-    contentInput.value = entry.content || '';
-    updateCharCount();
+  if (!username || !password) {
+    authMsg.textContent = "아이디와 비밀번호를 입력하세요.";
+    return;
   }
 
-  // Rendering
-  function renderList(){
-    const q = (searchInput.value || '').toLowerCase().trim();
-    const mood = filterMood.value;
-    const items = Object.values(db).sort((a,b)=> b.date.localeCompare(a.date));
+  let users = JSON.parse(localStorage.getItem("users")) || {};
 
-    entryList.innerHTML = '';
-    const frag = document.createDocumentFragment();
-
-    items.forEach(item => {
-      if (mood && item.mood !== mood) return;
-      const hay = (item.content + ' ' + (item.tags||'') + ' ' + (item.mood||'')).toLowerCase();
-      if (q && !hay.includes(q)) return;
-
-      const li = document.createElement('li');
-      li.className = 'entry-item';
-      li.dataset.date = item.date;
-
-      const left = document.createElement('div');
-      left.className = 'entry-main';
-      const title = document.createElement('div');
-      title.innerHTML = `<span class="entry-date">${item.date}</span> ${item.mood||''}`;
-      const tags = document.createElement('div');
-      tags.className = 'entry-tags';
-      tags.textContent = (item.tags||'').split(',').map(s=>s.trim()).filter(Boolean).map(t=>`#${t}`).join(' ');
-      const preview = document.createElement('div');
-      preview.className = 'entry-tags';
-      preview.textContent = (item.content||'').slice(0,80).replace(/\s+/g,' ') + ((item.content||'').length>80?'…':'');
-      left.append(title,tags,preview);
-
-      const right = document.createElement('div');
-      right.className = 'entry-right';
-      const openBtn = document.createElement('button');
-      openBtn.className = 'secondary';
-      openBtn.textContent = '열기';
-      openBtn.addEventListener('click', ()=> openEntry(item.date));
-      const delBtn = document.createElement('button');
-      delBtn.className = 'danger';
-      delBtn.textContent = '삭제';
-      delBtn.addEventListener('click', ()=> deleteEntry(item.date));
-      right.append(openBtn, delBtn);
-
-      li.append(left, right);
-      frag.append(li);
-    });
-
-    entryList.append(frag);
+  if (users[username]) {
+    authMsg.textContent = "이미 존재하는 아이디입니다.";
+    return;
   }
 
-  function openEntry(date){
-    const e = db[date]; if(!e) return;
-    writeForm(e);
-    // 스크롤 상단
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  users[username] = { password, notes: [], dailyNotes: {} };
+  localStorage.setItem("users", JSON.stringify(users));
 
-  // Actions
-  function saveEntry(){
-    const e = readForm();
-    if (!e.date) e.date = todayStr();
-    db[e.date] = e;
-    saveDB();
-    pulseAutosave('저장됨');
-    renderList();
-  }
-
-  function deleteEntry(date){
-    const key = date || dateInput.value;
-    if (!key || !db[key]) return;
-    if (!confirm(`${key} 기록을 삭제할까요?`)) return;
-    delete db[key];
-    saveDB();
-    if (key === dateInput.value) writeForm({date: todayStr(), mood:'', tags:'', content:''});
-    renderList();
-  }
-
-  function newEntry(){
-    writeForm({ date: todayStr(), mood:'', tags:'', content:'' });
-  }
-
-  function exportData(){
-    const blob = new Blob([JSON.stringify(db,null,2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'daily-journal.json'; a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  function importData(file){
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const obj = JSON.parse(reader.result);
-        if (typeof obj !== 'object' || Array.isArray(obj)) throw 0;
-        db = obj;
-        saveDB();
-        renderList();
-        alert('가져오기 완료!');
-      } catch {
-        alert('가져오기 실패: JSON 형식이 올바르지 않습니다.');
-      }
-    };
-    reader.readAsText(file, 'utf-8');
-  }
-
-  // Helpers
-  function updateCharCount(){
-    const len = (contentInput.value||'').length;
-    charCount.textContent = `${len}자`;
-  }
-  let autosaveTimer;
-  function pulseAutosave(text){
-    autosaveHint.textContent = `· ${text}`;
-    clearTimeout(autosaveTimer);
-    autosaveTimer = setTimeout(()=> autosaveHint.textContent = '', 1200);
-  }
-
-  // Events
-  btnNew.addEventListener('click', newEntry);
-  btnSave.addEventListener('click', saveEntry);
-  btnDelete.addEventListener('click', ()=> deleteEntry());
-  btnExport.addEventListener('click', exportData);
-  btnImport.addEventListener('click', ()=> fileImport.click());
-  btnClearAll.addEventListener('click', () => {
-    if (!confirm('모든 기록을 지울까요? 이 작업은 되돌릴 수 없습니다.')) return;
-    db = {}; saveDB(); renderList(); newEntry();
-  });
-  fileImport.addEventListener('change', (e)=>{
-    const f = e.target.files[0]; if (f) importData(f);
-    fileImport.value = '';
-  });
-
-  // Auto-save on input (debounced)
-  function debounceSave(){
-    clearTimeout(autosaveTimer);
-    autosaveTimer = setTimeout(saveEntry, 600);
-  }
-  [dateInput, moodSelect, tagsInput, contentInput].forEach(el=>{
-    el.addEventListener('input', ()=>{
-      if (el === contentInput) updateCharCount();
-      debounceSave();
-    });
-  });
-
-  // Init
-  if (!dateInput.value) dateInput.value = todayStr();
-  if (!db[dateInput.value]) db[dateInput.value] = {date: dateInput.value, mood:'', tags:'', content:''};
-  writeForm(db[dateInput.value]);
-  renderList();
+  authMsg.textContent = "가입 성공! 로그인 해주세요.";
 });
+
+// 🔹 로그인
+loginBtn.addEventListener("click", () => {
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value;
+
+  let users = JSON.parse(localStorage.getItem("users")) || {};
+
+  if (!users[username] || users[username].password !== password) {
+    authMsg.textContent = "아이디 또는 비밀번호가 틀렸습니다.";
+    return;
+  }
+
+  currentUser = username;
+  showNoteScreen();
+});
+
+// 🔹 로그아웃
+logoutBtn.addEventListener("click", () => {
+  currentUser = null;
+  noteScreen.style.display = "none";
+  authScreen.style.display = "block";
+});
+
+// 🔹 화면 전환
+function showNoteScreen() {
+  authScreen.style.display = "none";
+  noteScreen.style.display = "block";
+  welcome.textContent = `환영합니다, ${currentUser}님!`;
+
+  renderNotes();
+  renderDailyNote();
+}
+
+// 🔹 전체 기록 저장
+saveBtn.addEventListener("click", () => {
+  let users = JSON.parse(localStorage.getItem("users"));
+  users[currentUser].notes.push(noteInput.value);
+  localStorage.setItem("users", JSON.stringify(users));
+  noteInput.value = "";
+  renderNotes();
+});
+
+// 🔹 하루 기록 저장 (날짜별 저장)
+saveDailyBtn.addEventListener("click", () => {
+  let today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+  let users = JSON.parse(localStorage.getItem("users"));
+
+  users[currentUser].dailyNotes[today] = dailyNoteInput.value;
+  localStorage.setItem("users", JSON.stringify(users));
+  renderDailyNote();
+});
+
+// 🔹 전체 기록 렌더링
+function renderNotes() {
+  let users = JSON.parse(localStorage.getItem("users"));
+  noteList.innerHTML = "";
+  users[currentUser].notes.forEach((note, idx) => {
+    let li = document.createElement("li");
+    li.textContent = `${idx + 1}. ${note}`;
+    noteList.appendChild(li);
+  });
+}
+
+// 🔹 하루 기록 렌더링
+function renderDailyNote() {
+  let today = new Date().toISOString().split("T")[0];
+  let users = JSON.parse(localStorage.getItem("users"));
+
+  dailyNoteList.innerHTML = "";
+
+  if (users[currentUser].dailyNotes[today]) {
+    let li = document.createElement("li");
+    li.textContent = `${today}: ${users[currentUser].dailyNotes[today]}`;
+    dailyNoteList.appendChild(li);
+    dailyNoteInput.value = users[currentUser].dailyNotes[today];
+  }
+}
