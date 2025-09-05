@@ -240,4 +240,7 @@ function generateUniqueId(baseId) {
   return uniqueId;
 }
 
-console.error("dd")
+console.log("abcd")
+console.warn("abcd")
+console.error("abcd"
+        
