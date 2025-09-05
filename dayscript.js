@@ -239,8 +239,3 @@ function generateUniqueId(baseId) {
 
   return uniqueId;
 }
-
-console.log("abcd")
-console.warn("abcd")
-console.error("abcd"
-        
